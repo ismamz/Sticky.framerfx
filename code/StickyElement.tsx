@@ -5,7 +5,7 @@ export function StickyElement({ children, offset, pinned, stucked }) {
     const hasChild = children.length > 0
 
     if (hasChild) {
-        // Clone element if child is a Code Component
+        // Clone element with `stucked` if child is a Code Component
         if (children[0].props.componentIdentifier) {
             return React.cloneElement(children[0].props.children[0], {
                 stucked: stucked,
