@@ -8,6 +8,16 @@ After install this package you will get two componentes: `Sticky` and `StickyEle
 The `StickyElement` is treated as relative positioned until the scroll vertical position
 crosses the element top position, at which point it is treated as fixed positioned.
 
+`StickyElement` accepts two component instances:
+
+* `Content`: the default element that will show when pinned or not.
+* `Pinned` (optional): another component to render when the element is fixed positioned.
+
+In other complex scenarios, if you connect a `StickyElement` to a code component,
+when its position is fixed, your code component will receive a `stucked` property.
+
+This is useful, for example, if you want to perform an animation between the two states.
+
 **Notes:**
 
 * You can set multiple `StickyElement` within scroll content frame.

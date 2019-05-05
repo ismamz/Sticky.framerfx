@@ -1,17 +1,28 @@
 import * as React from "react"
 import { Frame, ControlType, addPropertyControls } from "framer"
 
-export function StickyElement({ children, offset, pinned }) {
+export function StickyElement({ children, offset, pinned, stucked }) {
     const hasChild = children.length > 0
 
     if (hasChild) {
+        // Clone element if child is a Code Component
+        if (children[0].props.componentIdentifier) {
+            return React.cloneElement(children[0].props.children[0], {
+                stucked: stucked,
+            })
+        }
+
         return (
             <Frame
                 background="none"
                 size={"100%"}
                 style={{ display: "flex", alignItems: "center" }}
             >
-                <Frame {...children[0].props} position={"relative"}>
+                <Frame
+                    background="none"
+                    {...children[0].props}
+                    position={"relative"}
+                >
                     {children[0].props.children}
                 </Frame>
             </Frame>

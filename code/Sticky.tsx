@@ -75,8 +75,13 @@ export function Sticky(props) {
                         getTopPosition(parents[2].props)
                 }
 
+                const clonedChild = React.cloneElement(child, {
+                    stucked: true,
+                    top: 0,
+                })
+
                 aux.push({
-                    el: child,
+                    el: clonedChild, // child
                     top: childTop + parentTop,
                 })
             } else {
@@ -132,13 +137,21 @@ export function Sticky(props) {
     }, [scrollY])
 
     if (contentHeight) {
+        // const Stuck = () =>
+        //     React.cloneElement(stuck, {
+        //         stucked: true,
+        //         top: 0,
+        //     })
+
         return (
             <Frame size={"100%"} background="none">
                 <Scroll width={"100%"} height={"100%"} onScroll={handleScroll}>
                     {props.children}
                 </Scroll>
 
-                {stuck && (
+                {stuck}
+
+                {/* {stuck && (
                     <Frame
                         background="none"
                         {...stuck.props}
@@ -151,7 +164,7 @@ export function Sticky(props) {
                             ? stuck.props.children[0].props.pinned
                             : stuck.props.children}
                     </Frame>
-                )}
+                )} */}
             </Frame>
         )
     } else {
