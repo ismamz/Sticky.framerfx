@@ -142,7 +142,7 @@ export function Sticky(props) {
         handleSticky(elements)
     }, [scrollY])
 
-    // Check for `contentHeigh`` means that root children exists
+    // Check for `contentHeight` means that root children exists
     if (contentHeight) {
         return (
             <Frame size={"100%"} background="none">
