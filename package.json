@@ -1,0 +1,18 @@
+{
+	"main": "dist/index.js",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/react": "^16.8"
+	},
+	"peerDependencies": {
+		"framer": "^1.0 || ^1.0.0-beta",
+		"react": "^16.8"
+	},
+	"framer": {
+		"id": "bb0f667f-1b7a-4ea2-86ba-794bdda77145",
+		"displayName": "Sticky"
+	},
+	"author": "Ismael Martínez",
+	"name": "@framer/ismael.sticky",
+	"version": "1.1.0"
+}
