@@ -13,6 +13,7 @@ export function Header(props) {
             width: "60%",
         },
     }
+
     return (
         <Frame
             background="#05f"
@@ -23,6 +24,7 @@ export function Header(props) {
             center
             transition={{ duration: 0.1 }}
             style={{ fontSize: 16, fontWeight: "bold" }}
+            initial={"unpinned"}
             animate={props.stucked ? "pinned" : "unpinned"}
             variants={variants}
         >

@@ -17,7 +17,11 @@ export function StickyElement(props) {
             <Frame
                 background="none"
                 size={"100%"}
-                style={{ display: "flex", alignItems: "center" }}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
             >
                 <Frame
                     background="none"

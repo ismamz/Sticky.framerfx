@@ -31,6 +31,9 @@ export function Sticky(props) {
     // Scroll position
     const [scrollY, setScrollY] = useState(0)
 
+    // TODO: Keep only one scrollY state
+    const [state, setState] = useState({ scrollY: 0, reverse: false })
+
     // Top position of the last sticky element
     const [lastTop, setLastTop] = useState(0)
 
@@ -46,6 +49,11 @@ export function Sticky(props) {
     // Update the state with the scroll Y position
     function handleScroll(info) {
         setScrollY(-info.point.y)
+
+        setState(prevState => {
+            const isReverse = prevState.scrollY > -info.point.y
+            return { scrollY: -info.point.y, reverse: isReverse }
+        })
     }
 
     // Get top position value (sometimes `props.top` is not defined)
@@ -94,13 +102,21 @@ export function Sticky(props) {
             }
         })
 
+        // Sort elements by top position (from less to more)
+        aux.sort((a, b) => {
+            return a.top - b.top
+        })
+
         // Update state with all StickyElement instances found
         setElements(aux)
     }
 
-    // For each sticky elements in array checks top position and it compares with `scrollY`
+    // For each sticky elements in array checks top position and compares with `scrollY`
     function handleSticky(elements) {
-        setStuck(null) // TODO: Avoid doing this. It is repainted constantly.
+        // Check if is reverse scrolling to avoid unnecessary repaint
+        if (state.reverse) {
+            setStuck(null)
+        }
 
         elements.forEach(child => {
             const top = child.top
@@ -144,16 +160,37 @@ export function Sticky(props) {
 
     // Check for `contentHeight` means that root children exists
     if (contentHeight) {
+        let content = stuck
+
+        if (stuck && stuck.props.children[0].props.pinned.length) {
+            content = React.cloneElement(
+                stuck.props.children[0].props.pinned[0],
+                { position: "relative" } // It should be centered
+            )
+        }
+
         return (
             <Frame size={"100%"} background="none">
                 <Scroll width={"100%"} height={"100%"} onScroll={handleScroll}>
                     {props.children}
                 </Scroll>
 
-                {stuck}
+                {stuck && (
+                    <Frame
+                        background="none"
+                        {...stuck.props}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        {content}
+                    </Frame>
+                )}
             </Frame>
         )
     } else {
-        return <Empty {...props} />
+        return <Empty />
     }
 }
