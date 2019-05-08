@@ -28,11 +28,8 @@ function isStickyElement(el) {
 }
 
 export function Sticky(props) {
-    // Scroll position
-    const [scrollY, setScrollY] = useState(0)
-
-    // TODO: Keep only one scrollY state
-    const [state, setState] = useState({ scrollY: 0, reverse: false })
+    // Scroll position and direction
+    const [scroll, setScroll] = useState({ y: 0, reverse: false })
 
     // Top position of the last sticky element
     const [lastTop, setLastTop] = useState(0)
@@ -48,16 +45,14 @@ export function Sticky(props) {
 
     // Update the state with the scroll Y position
     function handleScroll(info) {
-        setScrollY(-info.point.y)
-
-        setState(prevState => {
-            const isReverse = prevState.scrollY > -info.point.y
-            return { scrollY: -info.point.y, reverse: isReverse }
+        setScroll(prevScroll => {
+            const reverse = prevScroll.y > -info.point.y
+            return { y: -info.point.y, reverse }
         })
     }
 
     // Get top position value (sometimes `props.top` is not defined)
-    function getTopPosition(props: any): number {
+    function getTopPosition(props) {
         if (props.top || props.top === 0) {
             return props.top
         } else if (props.bottom) {
@@ -87,7 +82,7 @@ export function Sticky(props) {
                 aux.push({
                     // The cloned element to be fixed with new props
                     el: React.cloneElement(child, {
-                        stucked: true,
+                        stuck: true,
                         top: 0,
                     }),
                     // The top position relative to the scroll content
@@ -111,10 +106,10 @@ export function Sticky(props) {
         setElements(aux)
     }
 
-    // For each sticky elements in array checks top position and compares with `scrollY`
+    // For each sticky elements in array checks top position and compares with `scroll.y`
     function handleSticky(elements) {
         // Check if is reverse scrolling to avoid unnecessary repaint
-        if (state.reverse) {
+        if (scroll.reverse) {
             setStuck(null)
         }
 
@@ -123,12 +118,12 @@ export function Sticky(props) {
             const stickyEl = child.el.props.children[0]
             const offset = (stickyEl && stickyEl.props.offset) || 0
 
-            if (scrollY > top - offset) {
+            if (scroll.y > top - offset) {
                 if (lastTop < top) {
                     setLastTop(top)
                 }
 
-                if (scrollY < lastTop || top >= lastTop) {
+                if (scroll.y < lastTop || top >= lastTop) {
                     if (top < lastTop) {
                         setLastTop(0)
                     }
@@ -156,7 +151,7 @@ export function Sticky(props) {
     // Update stuck element when `scrollY` value changes
     useEffect(() => {
         handleSticky(elements)
-    }, [scrollY])
+    }, [scroll.y])
 
     // Check for `contentHeight` means that root children exists
     if (contentHeight) {

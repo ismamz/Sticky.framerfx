@@ -2,14 +2,14 @@ import * as React from "react"
 import { Frame, ControlType, addPropertyControls } from "framer"
 
 export function StickyElement(props) {
-    const { children, stucked } = props
+    const { children, stuck } = props
     const hasChild = children.length > 0
 
     if (hasChild) {
-        // Clone element with `stucked` property if child is a code component
+        // Clone element with `stuck` property if child is a code component
         if (children[0].props.componentIdentifier) {
             return React.cloneElement(children[0].props.children[0], {
-                stucked: stucked,
+                stuck: stuck,
             })
         }
 
@@ -50,11 +50,20 @@ export function StickyElement(props) {
 }
 
 StickyElement.defaultProps = {
-    offset: 0,
+    children: null,
     pinned: null,
+    offset: 0,
 }
 
 addPropertyControls(StickyElement, {
+    children: {
+        type: ControlType.ComponentInstance,
+        title: "Default"
+    },
+    pinned: {
+        type: ControlType.ComponentInstance,
+        title: "Pinned",
+    },
     offset: {
         type: ControlType.Number,
         title: "Offset",
@@ -63,9 +72,5 @@ addPropertyControls(StickyElement, {
         min: -300,
         max: 300,
         displayStepper: false, // NOTE: displayStepper doesn't work with false
-    },
-    pinned: {
-        type: ControlType.ComponentInstance,
-        title: "Pinned",
     },
 })

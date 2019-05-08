@@ -5,11 +5,9 @@ After install this package you will get two components: `Sticky` and `StickyElem
 * `Sticky` component works exactly as a Scroll interactive component.
 * `StickyElement` must be connected to any frame that you want to be sticky.
 
-> The `StickyElement` is treated as relative positioned until the scroll vertical position
-crosses the element top position, at which point it is treated as fixed positioned.
+![Sticky Animation](https://media.giphy.com/media/JPgeZBoBIEeCNYc7AV/giphy.gif)
 
-![Sticky Animation](https://media.giphy.com/media/2aSonQXwo4v0hPnEHh/giphy.gif)
-
+Example based on [30 days of Framer X](https://github.com/hermy0211/framer30-code/tree/master/Day%2007%20Sticky%20Headers) by Anne Lee.
 
 ### Handle status
 
@@ -19,15 +17,15 @@ crosses the element top position, at which point it is treated as fixed position
 * `Pinned` (optional): a component to render when the element is fixed positioned.
 
 In other complex scenarios, if you connect a `StickyElement` to a code component,
-when its position is fixed, your code component will receive a `stucked` property.
+when its position is fixed, your code component will receive a boolean `stuck` property.
 
-The package includes a `Header` code component that works with stucked state:
+You can create a `Header` code component that works with stuck state like this:
 
 ```jsx
 export function Header(props) {
     return (
         <Frame>
-            {props.stucked ? "Pinned" : "Unpinned"}
+            {props.stuck ? "Pinned" : "Unpinned"}
         </Frame>
     )
 }
@@ -35,6 +33,15 @@ export function Header(props) {
 
 This is useful, for example, if you want to perform an animation between the two states.
 
+![Sticky Animation with Code Components](https://media.giphy.com/media/ZXkqHJXApoqkIcE9AU/giphy.gif)
+
+
+### Notes
+
+* You can set a `offset` parameter to each sticky element.
+* You can set multiple `StickyElement` within scroll content frame.
+* It works with `StickyElement` nested on other elements.
+* It only works for vertical scroll.
 
 #### ⚠️ Important
 
@@ -44,27 +51,26 @@ position based on his height and bottom position and also from parents layout va
 It's recomendable to change `StickyElement` and parents frames alignment to **Pin top**,
 it's more efficient and will work correctly.
 
-**Notes:**
+#### ⚡️ Performance
 
-* You can set a `offset` parameter to each sticky element.
-* You can set multiple `StickyElement` within scroll content frame.
-* It works with `StickyElement` nested on other elements.
-* It only works for vertical scroll.
+The following is a 1x speed animation showing how it works efficiently with multiple cases.
+
+![Sticky Animation showing a full example](https://media.giphy.com/media/PipVUYeViwY8MAM8hg/giphy.gif)
 
 
 ### Changelog
 
-##### v2.0.0 - 2018-05-??
+##### v2.0.0
 
-- Complete refactoring with new Framer API
+- Complete refactoring using the new Framer API
 - Add pinned state to `StickyElement` using component instances
 - Add support to work with code components based on pinned status
 
-##### v1.1.0 - 2018-09-22
+##### v1.1.0
 
 - Rebuild with two componentes and remove Overrides
 
-##### v1.0.0 - 2018-09-13
+##### v1.0.0
 
 - First release
 
