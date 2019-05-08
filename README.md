@@ -13,13 +13,13 @@ Example based on [30 days of Framer X](https://github.com/hermy0211/framer30-cod
 
 `StickyElement` accepts two component instances:
 
-* `Content`: the default element that will show when is pinned or not.
+* `Default`: the default element that will show when is pinned or not.
 * `Pinned` (optional): a component to render when the element is fixed positioned.
 
 In other complex scenarios, if you connect a `StickyElement` to a code component,
 when its position is fixed, your code component will receive a boolean `stuck` property.
 
-You can create a `Header` code component that works with stuck state like this:
+You can create a `Header` code component that works with `stuck` state like this:
 
 ```jsx
 export function Header(props) {
