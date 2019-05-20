@@ -90,7 +90,7 @@ export function Sticky(props) {
                 })
             } else {
                 // Keep looking for StickyElement within frames
-                if (child.props && child.props.children.length) {
+                if (child.props.children && child.props.children.length) {
                     // All parents are added to calculate the total position
                     findStickyElements(child.props.children, child, ...parents)
                 }
@@ -155,7 +155,7 @@ export function Sticky(props) {
 
     // Check for `contentHeight` means that root children exists
     if (contentHeight) {
-        let content = stuck
+        let content = stuck && stuck.props.children
 
         if (stuck && stuck.props.children[0].props.pinned.length) {
             content = React.cloneElement(

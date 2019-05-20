@@ -60,6 +60,11 @@ The following is a 1x speed animation showing how it works efficiently with mult
 
 ### Changelog
 
+##### v2.1.0
+
+- Fix bug with X position of Sticky elements
+- Fix bug when looking Sticky elements within frames
+
 ##### v2.0.0
 
 - Complete refactoring using the new Framer API
