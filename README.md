@@ -38,6 +38,7 @@ This is useful, for example, if you want to perform an animation between the two
 
 ### Notes
 
+* You can use code overrides to apply effects based on scroll position.
 * You can set a `offset` parameter to each sticky element.
 * You can set multiple `StickyElement` within scroll content frame.
 * It works with `StickyElement` nested on other elements.
@@ -59,6 +60,10 @@ The following is a 1x speed animation showing how it works efficiently with mult
 
 
 ### Changelog
+
+##### v2.2.0
+
+- Add support for code overrides
 
 ##### v2.1.0
 

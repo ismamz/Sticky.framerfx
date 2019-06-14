@@ -28,6 +28,8 @@ function isStickyElement(el) {
 }
 
 export function Sticky(props) {
+    const { onScroll, ...rest } = props
+
     // Scroll position and direction
     const [scroll, setScroll] = useState({ y: 0, reverse: false })
 
@@ -49,6 +51,9 @@ export function Sticky(props) {
             const reverse = prevScroll.y > -info.point.y
             return { y: -info.point.y, reverse }
         })
+
+        // Pass down onScroll prop to the scroll component
+        onScroll(info)
     }
 
     // Get top position value (sometimes `props.top` is not defined)
@@ -166,7 +171,12 @@ export function Sticky(props) {
 
         return (
             <Frame size={"100%"} background="none">
-                <Scroll width={"100%"} height={"100%"} onScroll={handleScroll}>
+                <Scroll
+                    {...rest}
+                    width={"100%"}
+                    height={"100%"}
+                    onScroll={handleScroll}
+                >
                     {props.children}
                 </Scroll>
 
@@ -188,4 +198,8 @@ export function Sticky(props) {
     } else {
         return <Empty />
     }
+}
+
+Sticky.defaultProps = {
+    onScroll: () => {},
 }
