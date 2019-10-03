@@ -13,6 +13,14 @@ export function StickyElement(props) {
             })
         }
 
+        if (props.responsive) {
+            const childFrame = React.cloneElement(children[0], {
+                width: "100%",
+            })
+
+            return childFrame
+        }
+
         return (
             <Frame
                 background="none"
@@ -58,7 +66,7 @@ StickyElement.defaultProps = {
 addPropertyControls(StickyElement, {
     children: {
         type: ControlType.ComponentInstance,
-        title: "Default"
+        title: "Default",
     },
     pinned: {
         type: ControlType.ComponentInstance,
@@ -71,6 +79,11 @@ addPropertyControls(StickyElement, {
         unit: "px",
         min: -300,
         max: 300,
-        displayStepper: false, // NOTE: displayStepper doesn't work with false
+        step: 1,
+    },
+    responsive: {
+        type: ControlType.Boolean,
+        title: "Responsive",
+        defaultValue: false,
     },
 })
