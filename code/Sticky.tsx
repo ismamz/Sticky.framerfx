@@ -47,7 +47,7 @@ export function Sticky(props) {
 
     // Update the state with the scroll Y position
     function handleScroll(info) {
-        setScroll(prevScroll => {
+        setScroll((prevScroll) => {
             const reverse = prevScroll.y > -info.point.y
             return { y: -info.point.y, reverse }
         })
@@ -67,6 +67,25 @@ export function Sticky(props) {
         }
     }
 
+    // Get y position in parent
+    function getY(element, parent) {
+        const { top, bottom, height } = element.props
+
+        if (typeof top === "string") {
+            // Not constrained to top or bottom.
+            // In this case, top is distance to centre of element as a percentage of parent height.
+            return Math.round(
+                (parseFloat(top) / 100) * parent.props.height - height / 2
+            )
+        } else if (top != undefined) {
+            // Constrained to top
+            return top
+        } else {
+            // Constrained to bottom
+            return parent.props.height - bottom - height
+        }
+    }
+
     // Calculate total top position from props of their parents
     function calculatePosition(...parents) {
         let total = 0
@@ -77,9 +96,24 @@ export function Sticky(props) {
     // Array to keep the reference of the found elements
     let aux = []
 
+    function getStackChildTopPosition(i, gap, paddingTop, height) {
+        if (i === 0) return paddingTop || 0
+
+        return paddingTop + 0
+    }
+
     // Recursive function to find StickyElement instances (including nested)
     function findStickyElements(childs, ...parents) {
-        childs.map(child => {
+        childs.map((child) => {
+            // Stack
+            // if (child.type.userInterfaceName == "Stack") {
+            //     console.log(
+            //         child.props.gap,
+            //         child.props.height,
+            //         child.props.paddingTop
+            //     )
+            // }
+
             if (isStickyElement(child)) {
                 const childTop = getTopPosition(child.props)
                 const parentTop = calculatePosition(...parents)
@@ -118,7 +152,7 @@ export function Sticky(props) {
             setStuck(null)
         }
 
-        elements.forEach(child => {
+        elements.forEach((child) => {
             const top = child.top
             const stickyEl = child.el.props.children[0]
             const offset = (stickyEl && stickyEl.props.offset) || 0
@@ -150,6 +184,10 @@ export function Sticky(props) {
         if (contentHeight) {
             // `contentHeight` is necessary for calculations
             findStickyElements(root.props.children, root)
+
+            //if (root.props.children[0].key.includes("Stack")) {
+              //  console.log("first child is a stack")
+            //}
         }
     }, [props.children, contentHeight])
 
@@ -162,7 +200,8 @@ export function Sticky(props) {
     if (contentHeight) {
         let content = stuck && stuck.props.children
 
-        if (stuck && stuck.props.children[0].props.pinned.length) {
+        //if (stuck && stuck.props.children[0].props.pinned.length) {
+        if (stuck?.props?.children[0]?.props?.pinned?.length) {
             content = React.cloneElement(
                 stuck.props.children[0].props.pinned[0],
                 { position: "relative" } // It should be centered
