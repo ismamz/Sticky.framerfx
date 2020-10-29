@@ -47,7 +47,7 @@ export function Sticky(props) {
 
     // Update the state with the scroll Y position
     function handleScroll(info) {
-        setScroll(prevScroll => {
+        setScroll((prevScroll) => {
             const reverse = prevScroll.y > -info.point.y
             return { y: -info.point.y, reverse }
         })
@@ -79,7 +79,7 @@ export function Sticky(props) {
 
     // Recursive function to find StickyElement instances (including nested)
     function findStickyElements(childs, ...parents) {
-        childs.map(child => {
+        childs.map((child) => {
             if (isStickyElement(child)) {
                 const childTop = getTopPosition(child.props)
                 const parentTop = calculatePosition(...parents)
@@ -118,7 +118,7 @@ export function Sticky(props) {
             setStuck(null)
         }
 
-        elements.forEach(child => {
+        elements.forEach((child) => {
             const top = child.top
             const stickyEl = child.el.props.children[0]
             const offset = (stickyEl && stickyEl.props.offset) || 0
@@ -162,11 +162,13 @@ export function Sticky(props) {
     if (contentHeight) {
         let content = stuck && stuck.props.children
 
-        if (stuck && stuck.props.children[0].props.pinned.length) {
-            content = React.cloneElement(
-                stuck.props.children[0].props.pinned[0],
-                { position: "relative" } // It should be centered
-            )
+        if (stuck !== null) {
+            if (stuck && stuck.props.children.props.pinned.length) {
+                content = React.cloneElement(
+                    stuck.props.children.props.pinned[0],
+                    { position: "relative" } // It should be centered
+                )
+            }
         }
 
         return (
