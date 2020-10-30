@@ -61,6 +61,10 @@ The following is a 1x speed animation showing how it works efficiently with mult
 
 ### Changelog
 
+##### v2.4.0
+
+- Fix bug 🐛 
+
 ##### v2.3.0
 
 - Add Responsive mode to `StickyElement`
